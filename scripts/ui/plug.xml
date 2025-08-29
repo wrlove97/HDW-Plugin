@@ -1,0 +1,1159 @@
+<?xml version="1.0" encoding="gb2312"?>
+<pmrui>
+	<!-- 挂机配置窗口 -->
+	<form name="frmPlug" modal="false" width="623" height="399" x="200" y="150" showtitle="false" showframe="false">
+		<template to="FORM_MAIN" />
+		<hotkey ctrl="ALT" key="Z" />
+
+		<!-- 背景 -->
+		<img name="imgBackground" type="NORMAL" src="texture/ui2022/FuZhuG.png" width="623" height="399" x="0" y="0"/>
+		
+		<!-- 标题 -->
+		<!--
+		<label name="labTitle" width="100" height="11" x="20" y="3"
+			color="white" font="DEFAULT" shadow="true" shadow-color="blue">辅助面板</label>-->
+		<label name="labTitle" width="100" height="11" x="260" y="5"
+			color="white" font="DEFAULT" shadow="true" shadow-color="blue">Ryanの辅助面板 v6.5</label>	
+
+		<tabs name="tabContainer" width="573" height="257" x="28" y="64" button-pos="custom" button-width="55" button-height="34">
+			<tab>
+				<tab-button x="20" y="-38" width="61" height="25"
+					active-src="texture/ui2022/TabButton.png" active-offx="1" active-offy="1" 
+					normal-src="texture/ui2022/TabButton.png" normal-offx="68" normal-offy="1"/>
+				<!-- 选择要攻击的类型 -->
+				<checkgroup name="fightTargetType" x="22" y="10" width="100" height="10">
+					<checkbox x="0" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="15"  y="0" width="14" height="11">怪</label>
+
+					<checkbox x="35" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="50"  y="0" width="14" height="11">树</label>
+
+					<checkbox x="70" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="85"  y="0" width="14" height="11">矿</label>
+
+					<checkbox x="105" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="120"  y="0" width="14" height="11">鱼</label>
+
+					<checkbox x="140" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="155"  y="0" width="14" height="11">船</label>
+					
+					<checkbox x="175" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="190"  y="0" width="14" height="11">人</label>
+				</checkgroup>
+                <!--  过滤攻击目标 -->
+				<container x="20" y="35" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">攻击目标</label>
+					<img x="51" y="0" width="144" height="18" src="texture/ui2022/core/input.tga" />
+					<input name="fightTarget" x="58" y="2" width="164" height="14" color="black" value="全部"/>
+				</container>
+
+				<container x="20" y="60" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机范围</label>
+
+					<img x="51" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="fightRange" x="58" y="2" width="96" height="14" color="black" value="8"/>
+				</container>
+				
+				<container x="20" y="85" height="21" width="200">
+					<label x="0" y="10" width="50" height="11">技能栏一</label>
+					<label x="10" y="42" width="50" height="11">CD1(秒)</label>
+					
+					<label x="0" y="80" width="50" height="11">技能栏二</label>
+					<label x="10" y="107" width="50" height="11">CD2(秒)</label>
+                    <!-- 技能一 -->
+					<img x="52" y="0" width="38" height="38" src="texture/ui2022/equip/bag-background.tga" offx="50" offy="42"/>
+					<command name="fightSkill1" x="55" y="4" width="38" height="38"/>
+					<img x="53" y="40" width="32" height="18" src="texture/ui2022/core/input-smini.tga" />
+					<input name="SkillCd1" x="58" y="43" width="32" height="14" color="black" value="0" accept-command="true"/>
+                    
+					<!-- 技能2 -->
+					<img x="95" y="0" width="38" height="38" src="texture/ui2022/equip/bag-background.tga" offx="50" offy="42"/>
+					<command name="fightSkill2" x="98" y="4" width="38" height="38"/>
+					<img x="96" y="40" width="32" height="18" src="texture/Ui2022/core/input-smini.tga" />
+					<input name="SkillCd2" x="101" y="43" width="32" height="14" color="black" value="0" accept-command="true"/>
+
+					<!-- 技能3 -->
+					<img x="138" y="0" width="38" height="38" src="texture/ui2022/equip/bag-background.tga" offx="50" offy="42"/>
+					<command name="fightSkill3" x="141" y="4" width="38" height="38"/>
+					<img x="139" y="40" width="32" height="18" src="texture/Ui2022/core/input-smini.tga" />
+					<input name="SkillCd3" x="144" y="43" width="32" height="14" color="black" value="0" accept-command="true"/>
+					
+					<!-- 技能4 -->
+					<img x="181" y="0" width="38" height="38" src="texture/ui2022/equip/bag-background.tga" offx="50" offy="42"/>
+					<command name="fightSkill4" x="184" y="4" width="38" height="38"/>
+					<img x="182" y="40" width="32" height="18" src="texture/Ui2022/core/input-smini.tga" />
+					<input name="SkillCd4" x="187" y="43" width="32" height="14" color="black" value="0" accept-command="true"/>
+					
+					<!-- 技能5 -->
+					<img x="52" y="65" width="38" height="38" src="texture/ui2022/equip/bag-background.tga" offx="50" offy="42"/>
+					<command name="fightSkill5" x="55" y="69" width="38" height="38"/>
+					<img x="53" y="105" width="32" height="18" src="texture/ui2022/core/input-smini.tga" />
+					<input name="SkillCd5" x="58" y="108" width="32" height="14" color="black" value="0" accept-command="true"/>
+					
+					<!-- 技能6 -->
+					<img x="95" y="65" width="38" height="38" src="texture/ui2022/equip/bag-background.tga" offx="50" offy="42"/>
+					<command name="fightSkill6" x="98" y="69" width="38" height="38"/>
+					<img x="96" y="105" width="32" height="18" src="texture/ui2022/core/input-smini.tga" />
+					<input name="SkillCd6" x="101" y="108" width="32" height="14" color="black" value="0" accept-command="true"/>
+					
+					<!-- 技能7 -->
+					<img x="138" y="65" width="38" height="38" src="texture/ui2022/equip/bag-background.tga" offx="50" offy="42"/>
+					<command name="fightSkill7" x="141" y="69" width="38" height="38"/>
+					<img x="139" y="105" width="32" height="18" src="texture/ui2022/core/input-smini.tga" />
+					<input name="SkillCd7" x="144" y="108" width="32" height="14" color="black" value="0" accept-command="true"/>
+					
+					<!-- 技能8 -->
+					<img x="181" y="65" width="38" height="38" src="texture/ui2022/equip/bag-background.tga" offx="50" offy="42"/>
+					<command name="fightSkill8" x="184" y="69" width="38" height="38"/>
+					<img x="182" y="105" width="32" height="18" src="texture/ui2022/core/input-smini.tga" />
+					<input name="SkillCd8" x="187" y="108" width="32" height="14" color="black" value="0" accept-command="true"/>
+				</container>
+				
+				<container x="20" y="213">
+					<checkbox name="chkStayHere" x="0" y="0" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="15"  y="0" width="50" height="11">原地挂机</label>
+				</container>
+				
+				<container x="90" y="213">
+					<checkbox name="chkFreeSit" x="0" y="0" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="15"  y="0" width="50" height="11">空闲打坐</label>
+				</container>
+				
+				<container x="160" y="213">
+					<checkbox name="chkOnlySkill" x="0" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="15"  y="0" width="50" height="11">只用技能</label>
+				</container>
+				
+				<container x="20" y="233">
+					<checkbox name="chkOnlyDoctor" x="0" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="15"  y="0" width="50" height="11">医生挂机(专奶)</label>
+				</container>
+				
+				<container x="123" y="233" >
+					<checkbox name="chkAutouFollow" x="0" y="2" width="10" height="10" checked="1"
+							checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+							unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="16" y="2" width="80" height="11">空闲跟随</label>
+					<img x="65" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="playFollw" x="69" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!-- 组队获取设置 -->
+				<container x="270" y="10" height="21" width="200">
+				    <checkbox name="chkPlayer01" x="0" y="3" width="10" height="10" checked="1"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="16" y="2" width="50" height="11">队员一</label>
+					<img x="59" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="play1" x="69" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				
+				<container x="270" y="55" height="21" width="200">
+				    <checkbox name="chkPlayer02" x="0" y="3" width="10" height="10" checked="1"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="16" y="2" width="50" height="11">队员二</label>
+					<img x="59" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="play2" x="69" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				
+				<container x="270" y="100" height="21" width="200">
+				    <checkbox name="chkPlayer03" x="0" y="3" width="10" height="10" checked="1"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="16" y="2" width="50" height="11">队员三</label>
+					<img x="59" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="play3" x="69" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				
+				<container x="270" y="145" height="21" width="200">
+				    <checkbox name="chkPlayer04" x="0" y="3" width="10" height="10" checked="1"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="16" y="2" width="50" height="11">队员四</label>
+					<img x="59" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="play4" x="69" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				
+				<container x="270" y="190" height="21" width="200">
+				    <checkbox name="chkPlayer05" x="0" y="3" width="10" height="10" checked="1"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="16" y="2" width="50" height="11">队员五</label>
+					<img x="59" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="play5" x="69" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				
+				<container x="280" y="10" height="21" width="200">
+
+			        <button name="btnRefreshTeam1" x="148" y="0" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="刷新1" text-color="black"/>
+						
+			        <button name="btnRefreshTeam2" x="148" y="45" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="刷新2" text-color="black"/>
+						
+			        <button name="btnRefreshTeam3" x="148" y="90" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="刷新3" text-color="black"/>
+						
+			        <button name="btnRefreshTeam4" x="148" y="135" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="刷新4" text-color="black"/>
+						
+			        <button name="btnRefreshTeam5" x="148" y="180" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="刷新5" text-color="black"/>
+				</container>
+				
+				<container x="330" y="10" height="21" width="200">
+			        <button name="btnFollow2" x="148" y="45" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="跟随2" text-color="black"/>
+						
+			        <button name="btnFollow3" x="148" y="90" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="跟随3" text-color="black"/>
+						
+			        <button name="btnFollow4" x="148" y="135" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="跟随4" text-color="black"/>
+						
+			        <button name="btnFollow5" x="148" y="180" width="41" height="19" horizontal="false" 
+				        img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="跟随5" text-color="black"/>
+				</container>
+				
+				<!-- 自动答应组队，自动邀请组队-->
+				<container x="300" y="33" height="21" width="200">
+				    <checkbox name="chkTeam01" x="0" y="2" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="13" y="1" width="50" height="11">确认组队1</label>
+				    <checkbox name="chkInvite01" x="70" y="2" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="85" y="1" width="50" height="11">邀请组队1</label>
+						 
+				    <checkbox name="chkTeam02" x="0" y="47" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="13" y="46" width="50" height="11">确认组队2</label>
+				    <checkbox name="chkInvite02" x="70" y="47" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="85" y="46" width="50" height="11">邀请组队2</label>
+						 
+				    <checkbox name="chkTeam03" x="0" y="95" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="13" y="94" width="50" height="11">确认组队3</label>
+				    <checkbox name="chkInvite03" x="70" y="95" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="85" y="94" width="50" height="11">邀请组队3</label>
+						 
+				    <checkbox name="chkTeam04" x="0" y="140" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="13" y="139" width="50" height="11">确认组队4</label>
+				    <checkbox name="chkInvite04" x="70" y="140" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="85" y="139" width="50" height="11">邀请组队4</label>
+						 
+				    <checkbox name="chkTeam05" x="0" y="184" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="13" y="183" width="50" height="11">确认组队5</label>
+				    <checkbox name="chkInvite05" x="70" y="184" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				         <label x="85" y="183" width="50" height="11">邀请组队5</label>
+						 
+				</container>
+				
+				<!-- 治愈术-->
+				<container x="330" y="245" height="21" width="200">
+				    <checkbox name="chkUseHealSkill" x="0" y="3" width="10" height="10"
+					          checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					          unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				    <label x="16" y="2" width="20" height="11">低于</label>
+				    <img x="38" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />					
+				    <input name="healSkillHpThreshold" x="48" y="3" width="48" height="14" color="black" value="85" accept-command="true"/>
+					<label x="88" y="2" width="100" height="11">% HP使用治愈术</label>
+					<label x="22" y="18" width="100" height="11">（治愈术无需拖入技能栏）</label>
+				</container>
+
+			</tab>
+			
+			<!--定位点分页 -->
+			<tab>
+				<tab-button x="80" y="-38" width="61" height="25"
+					active-src="texture/ui2022/TabButton.png" active-offx="1" active-offy="1" 
+					normal-src="texture/ui2022/TabButton.png" normal-offx="68" normal-offy="1"/>
+
+				<container x="20" y="10" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点01</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX1" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY1" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos1" x="148" y="0" width="41" height="19" horizontal="false"
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos1" x="190" y="0" width="41" height="19" horizontal="false"
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="35" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点02</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX2" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY2" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos2" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos2" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="60" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点03</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX3" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY3" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos3" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos3" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="85" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点04</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX4" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY4" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos4" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos4" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="110" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点05</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX5" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY5" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos5" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos5" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="135" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点06</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX6" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY6" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos6" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos6" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="160" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点07</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX7" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY7" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos7" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos7" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="185" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点08</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX8" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY8" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos8" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos8" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="210" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点09</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX9" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY9" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos9" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos9" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="20" y="235" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点10</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX10" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY10" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos10" x="148" y="0" width="41" height="19" horizontal="false"
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos10" x="190" y="0" width="41" height="19" horizontal="false"
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="300" y="10" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点11</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX11" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY11" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos11" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos11" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+				
+				<container x="300" y="35" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点12</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX12" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY12" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos12" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos12" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="300" y="60" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点13</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX13" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY13" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos13" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos13" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="300" y="85" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点14</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX14" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY14" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos14" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos14" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="300" y="110" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点15</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX15" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY15" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos15" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos15" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="300" y="135" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点16</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX16" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY16" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos16" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos16" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="300" y="160" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点17</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX17" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY17" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos17" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos17" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="300" y="185" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点18</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX18" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY18" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos18" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos18" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="300" y="210" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点19</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX19" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY19" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos19" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos19" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="300" y="235" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">挂机点20</label>
+
+					<img x="48" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosX20" x="53" y="3" width="48" height="14" color="black" value="0"/>
+
+					<img x="98" y="1" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="fightPosY20" x="103" y="3" width="48" height="14" color="black" value="0"/>
+
+					<button name="btnRefreshPos20" x="148" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="定位" text-color="black"/>
+						
+					<button name="btnClearPos20" x="190" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<container x="410" y="265" height="21" width="200">
+					<label x="0" y="2" width="50" height="11">清空全部点</label>
+		
+					<button name="btnClearPosAll" x="60" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="清空" text-color="black"/>
+				</container>
+
+				<!-- 挂机点导入导出功能 -->
+				<container x="70" y="295" height="40" width="500">
+					<label x="0" y="2" width="80" height="11">文件名: user/positions-</label>
+					
+					<img x="140" y="0" width="144" height="18" src="texture/ui2022/core/input.tga" />
+					<input name="posConfigFileName" x="150" y="3" width="144" height="14" color="black" value="mine" accept-command="true"/>
+					
+					<label x="286" y="2" width="40" height="11">.ini</label>
+
+					<button name="btnSavePositions" x="325" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="导出" text-color="black"/>
+						
+					<button name="btnLoadPositions" x="375" y="0" width="41" height="19" horizontal="false" 
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="导入" text-color="black"/>
+						
+					<label x="0" y="22" width="400" height="11">说明: 输入文件名后点击"导出"另存当前挂机点，点击"导入"加载保存的挂机点</label>
+				</container>
+
+			</tab>
+			
+			<!--捡取分页 -->
+			<tab>
+				<tab-button x="145" y="-38" width="61" height="25"
+					active-src="texture/ui2022/TabButton.png" active-offx="1" active-offy="32" 
+					normal-src="texture/ui2022/TabButton.png" normal-offx="68" normal-offy="32"/>
+
+				<!-- <container x="10" y="10">
+					<label x="0"  y="0" width="60" height="11">拾取方式：</label>
+					<checkgroup name="chkPickMode" x="60" y="0" width="100" height="10">
+						<checkbox x="0" y="0" width="10" height="10"
+							checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+							unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						<label x="15"  y="0" width="14" height="11">快速拾取</label>
+
+						<checkbox x="70" y="0" width="10" height="10"
+							checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+							unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						<label x="85"  y="0" width="14" height="11">走近拾取</label>
+					</checkgroup>
+				</container> -->
+
+				<container x="20" y="65">
+					<label x="0"  y="0" width="60" height="11">拾取过滤：</label>
+				  <checkgroup name="chkOnlyPickType" x="60" y="0" width="100" height="10">
+					<!-- 拾取全部物品-->
+					<checkbox x="10" y="0" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="25"  y="0" width="80" height="11">拾取全部物品</label>
+					
+					<!-- 拾取背包对照物品-->
+					<checkbox x="10" y="18" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="25"  y="18" width="80" height="11">只拾取背包内物品</label>
+					
+					<!-- 拾取装备物品-->
+					<checkbox x="10" y="36" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="25"  y="36" width="80" height="11">只拾取装备类物品</label>
+					
+					<!-- 拾取杂物物品-->
+					<checkbox x="10" y="54" width="10" height="10"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+					<label x="25"  y="54" width="80" height="11">只拾取其他类物品</label>
+					
+				  </checkgroup>
+					<label x="0" y="90" width="50" height="11">拾取延迟(毫秒)</label>
+					<img x="90" y="88" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="InPickTime" x="95" y="91" width="96" height="14" color="black" value="500"/>
+				</container>
+				
+				<!-- 物品名称过滤功能 -->
+				<container x="275" y="5">
+					<label x="0" y="0" width="80" height="11">物品名称过滤：</label>
+					
+					<!-- 不过滤/白名单/黑名单选择 -->
+					<checkgroup name="chkPickFilterMode" x="0" y="20" width="250" height="10">
+						<checkbox x="10" y="0" width="10" height="10"
+							checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+							unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						<label x="25" y="0" width="60" height="11">不过滤</label>
+						
+						<checkbox x="82" y="0" width="10" height="10"
+							checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+							unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						<label x="97" y="0" width="60" height="11">白名单模式</label>
+						
+						<checkbox x="172" y="0" width="10" height="10"
+							checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+							unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						<label x="187" y="0" width="60" height="11">黑名单模式</label>
+					</checkgroup>
+					
+					<!-- 物品名称输入和操作按钮 -->
+					<label x="0" y="40" width="60" height="11">物品名称：</label>
+					<img x="3" y="55" width="144" height="18" src="texture/ui2022/core/input.tga" />
+					<input name="pickFilterItemName" x="10" y="58" width="144" height="14" color="black" value=""/>
+					
+					<button name="btnPickFilterAdd" x="164" y="55" width="41" height="19" text="插入" horizontal="false"
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+					<button name="btnPickFilterClear" x="214" y="55" width="41" height="19" text="清空" horizontal="false"
+						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+					
+					<!-- 物品列表显示区域 -->
+					<label x="0" y="80" width="60" height="11">物品列表：</label>
+					<container x="0" y="95" width="220" height="120">
+						
+						<!-- 物品列表内容（动态生成） -->
+						<img x="5" y="3" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList1" x="10" y="6" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="21" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList2" x="10" y="24" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="39" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList3" x="10" y="42" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="57" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList4" x="10" y="60" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="75" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList5" x="10" y="78" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="93" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList6" x="10" y="96" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="111" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList7" x="10" y="114" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="129" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList8" x="10" y="132" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="147" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList9" x="10" y="150" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<!-- 删除按钮 -->
+						<button name="btnPickFilterDel1" x="102" y="3" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel2" x="102" y="21" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel3" x="102" y="39" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel4" x="102" y="57" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel5" x="102" y="75" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel6" x="102" y="93" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel7" x="102" y="111" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel8" x="102" y="129" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel9" x="102" y="147" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+					</container>
+
+					<container x="145" y="95" width="220" height="120">
+						
+						<!-- 物品列表内容（动态生成） -->
+						<img x="5" y="3" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList10" x="10" y="6" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="21" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList11" x="10" y="24" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="39" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList12" x="10" y="42" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="57" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList13" x="10" y="60" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="75" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList14" x="10" y="78" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="93" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList15" x="10" y="96" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="111" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList16" x="10" y="114" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="129" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList17" x="10" y="132" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<img x="5" y="147" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+						<input name="pickFilterList18" x="10" y="150" width="96" height="14" color="black" value="" readonly="true"/>
+						
+						<!-- 删除按钮 -->
+						<button name="btnPickFilterDel10" x="102" y="3" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel11" x="102" y="21" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel12" x="102" y="39" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel13" x="102" y="57" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel14" x="102" y="75" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel15" x="102" y="93" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel16" x="102" y="111" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel17" x="102" y="129" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+						<button name="btnPickFilterDel18" x="102" y="147" width="41" height="19" text="删除" horizontal="false"
+							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
+					</container>
+
+				</container>
+			</tab>
+			
+			<tab>
+				<tab-button x="210" y="-38" width="61" height="25"
+					active-src="texture/ui2022/TabButton.png" active-offx="1" active-offy="65" 
+					normal-src="texture/ui2022/TabButton.png" normal-offx="68" normal-offy="65"/>
+
+				<!--第一列开始 -->
+				<!--HP1使用 -->
+				<container x="20" y="10" height="21" width="300">
+					<checkbox name="safeHpItemEnable1" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+
+					<label x="15" y="2" width="30" height="11">HP低&lt;</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="safeHpItemMax1" x="55" y="3" width="48" height="14" color="black" value="50" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">% 使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="safeHpItemName1" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--HP2使用 -->
+				<container x="20" y="40" height="21" width="300">
+					<checkbox name="safeHpItemEnable2" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+
+					<label x="15" y="2" width="30" height="11">HP常&lt;</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="safeHpItemMax2" x="55" y="3" width="48" height="14" color="black" value="80" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">% 使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="safeHpItemName2" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--SP1使用 -->
+				<container x="20" y="70" height="21" width="300">
+					<checkbox name="safeSpItemEnable1" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+
+					<label x="15" y="2" width="30" height="11">SP低&lt;</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="safeSpItemMax1" x="55" y="3" width="48" height="14" color="black" value="50" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">% 使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="safeSpItemName1" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--SP2使用 -->
+				<container x="20" y="100" height="21" width="300">
+					<checkbox name="safeSpItemEnable2" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+
+					<label x="15" y="2" width="30" height="11">SP常&lt;</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="safeSpItemMax2" x="55" y="3" width="48" height="14" color="black" value="80" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">% 使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="safeSpItemName2" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--精灵HP -->
+				<container x="20" y="130" height="21" width="300">
+					<checkbox name="PetEnable" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						
+					<label x="15" y="2" width="30" height="11">精灵&lt;</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="PetHpValue" x="55" y="3" width="48" height="14" color="black" value="50" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">% 使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="PetHpItem" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--精灵成长 -->
+				<container x="20" y="160" height="21" width="300">
+					<checkbox name="PetGrowEnable" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						
+					<label x="15" y="2" width="80" height="11"> 精灵满EXP 使用 </label>
+						
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="PetGrowItem" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+
+				<!--喊话 -->
+				<container x="20" y="205" height="21" width="300">
+					<checkbox name="safeSayEnable" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						
+					<label x="15" y="2" width="30" height="11">每隔</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="safeSayInterval" x="55" y="3" width="48" height="14" color="black" value="30" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">秒大喊</label>
+
+					<img x="137" y="0" width="144" height="18" src="texture/ui2022/core/input.tga" />
+					<input name="safeSayContent" x="143" y="3" width="144" height="14" color="black" value="" accept-command="true"/>
+				</container>
+
+				<!--第二列开始 -->
+				<!--其他物品定时使用1 -->
+				<container x="300" y="10" height="21" width="300">
+					<checkbox name="useItemEnable1" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+
+					<label x="15" y="2" width="30" height="11">每隔</label>
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="useItemInterval1" x="55" y="3" width="48" height="14" color="black" value="60" accept-command="true"/>
+					
+					<label x="97" y="2" width="40" height="11">秒使用</label>
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="useItemName1" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--其他物品定时使用2 -->
+				<container x="300" y="40" height="21" width="300">
+					<checkbox name="useItemEnable2" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+
+					<label x="15" y="2" width="30" height="11">每隔</label>
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="useItemInterval2" x="55" y="3" width="48" height="14" color="black" value="61" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">秒使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="useItemName2" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--其他物品定时使用3 -->
+				<container x="300" y="70" height="21" width="300">
+					<checkbox name="useItemEnable3" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						
+					<label x="15" y="2" width="30" height="11">每隔</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="useItemInterval3" x="55" y="3" width="48" height="14" color="black" value="62" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">秒使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="useItemName3" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--其他物品定时使用4 -->
+				<container x="300" y="100" height="21" width="300">
+					<checkbox name="useItemEnable4" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						
+					<label x="15" y="2" width="30" height="11">每隔</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="useItemInterval4" x="55" y="3" width="48" height="14" color="black" value="63" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">秒使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="useItemName4" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--其他物品定时使用5 -->
+				<container x="300" y="130" height="21" width="300">
+					<checkbox name="useItemEnable5" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						
+					<label x="15" y="2" width="30" height="11">每隔</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="useItemInterval5" x="55" y="3" width="48" height="14" color="black" value="64" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">秒使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="useItemName5" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				<!--其他物品定时使用6 -->
+				<container x="300" y="160" height="21" width="300">
+					<checkbox name="useItemEnable6" x="0" y="3" width="10" height="10" checked="1"
+						checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+						unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+						
+					<label x="15" y="2" width="30" height="11">每隔</label>
+
+					<img x="47" y="0" width="48" height="18" src="texture/ui2022/core/input-mini.tga" />
+					<input name="useItemInterval6" x="55" y="3" width="48" height="14" color="black" value="65" accept-command="true"/>
+
+					<label x="97" y="2" width="40" height="11">秒使用</label>
+
+					<img x="137" y="0" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
+					<input name="useItemName6" x="143" y="3" width="96" height="14" color="black" value="" accept-command="true"/>
+				</container>
+				
+				<!--提示信息 -->
+				<label x="360" y="200" width="50" height="11">使用小技巧：</label>
+				<label x="360" y="225" width="300" height="11">1.道具可以拖拽到输入框内</label>
+				<label x="360" y="250" width="300" height="11">2.使用前先勾选上按钮</label>
+				
+
+				<!-- <container x="10" y="90" height="21" width="300">
+					<label x="0" y="0" width="50" height="11">喊话内容</label>
+					<img name="imgBak01" x="120" y="0" width="100" height="20"
+						src="texture/ui/SystemBotton3.tga" offx="0" offy="227"/>
+					<input name="sayinfo" x="120" y="0" width="100" height="11" />
+				</container>
+
+				<browser x="320" y="10" width="180" height="225" url="http://pic1.win4000.com/pic/6/d0/58311391418_130_170.jpg"></browser>
+				
+				<select name="cboMap1" x="80" y="50" width="81" height="20" style="down" mouse-follow="true"
+					color="black" font-color="black" text-color="white" row-height="18"
+					list-background-src="texture/ui/search.tga" list-background-offx="0" list-background-offy="133" list-height="60"
+					selected-background-src="texture/ui/SystemBotton3.tga" selected-background-offx="0" selected-background-offy="227">
+					<option>快速拾取</option>
+					<option>走近拾取</option>
+				</select> -->
+			</tab>
+			<!--独立说明-->
+			<tab>
+				<tab-button x="275" y="-38" width="61" height="25"
+					active-src="texture/ui2022/TabButton2.png" active-offx="1" active-offy="1" 
+					normal-src="texture/ui2022/TabButton2.png" normal-offx="68" normal-offy="1"/>
+					
+				<label x="20" y="10" width="50" height="11">**使用医生技巧：**</label>
+				<label x="20" y="30" width="50" height="11">1.使用时必须勾选《医生挂机(专奶)》</label>
+				<label x="20" y="50" width="50" height="11">2.攻击目标为《人》,《只用技能》</label>
+				<label x="20" y="70" width="50" height="11">3.使用跟随时，最好选择空闲跟随</label>
+				<label x="20" y="90" width="50" height="11">4.勾选《医生挂机》后状态类技能CD设3秒即可</label>
+				<label x="20" y="110" width="50" height="11">  即:每隔3秒检测目标状态,状态没了才会加</label>
+				<label x="20" y="130" width="50" height="11">5.支持医生单挂打怪并给自己加状态</label>
+
+				<label x="20" y="160" width="50" height="11">**挂机技巧：**</label>
+				<label x="20" y="180" width="50" height="11">1.《攻击目标》多个怪物使用(英文)“，”分隔目标</label>
+				<label x="20" y="200" width="50" height="11">2.《挂机范围》建议不要超过25</label>
+				<label x="20" y="220" width="50" height="11">3.《原地挂机》需"定位"挂机点01</label>
+				<label x="20" y="240" width="50" height="11">4.《道具使用》多个物品需将间隔时间错开</label>
+
+				<label x="300" y="10" width="50" height="11">**使用自动组队，邀请组队：**</label>
+				<label x="300" y="30" width="50" height="11">1.当你其中一个号做队长,选择《邀请组队1》</label>
+				<label x="300" y="50" width="50" height="11">  其他人不需要选择！</label>
+				<label x="300" y="70" width="50" height="11">2.其他窗口的队员，选择《确认组队》</label>
+				<label x="300" y="90" width="50" height="11">  一定要写好队长的名字!</label>
+				<label x="300" y="110" width="50" height="11">3.队长的设置，要写好你请求组队的队员名字</label>
+				<label x="300" y="130" width="50" height="11">4.选择《保护》才能激活组队功能！切记！</label>	
+				
+				<!-- 支持链接 -->
+				<button name="btnSupport" x="455" y="165" width="82" height="19" text="支持一下" horizontal="false"
+					img-src="texture/ui2022/core/button.tga" img-offx="0" img-offy="0" text-color="blue" />
+				
+				<label x="330" y="200" width="50" height="11">**Tip：**</label>
+				<label x="330" y="220" width="50" height="11">1.Ctrl+Shift+A开启自动捡全部道具</label>
+				<label x="330" y="240" width="50" height="11">2.为防止意外,传送时请先取消挂机</label>
+			<!--	<label x="330" y="260" width="50" height="11">                         初雨·Ryan.</label>	-->
+
+			</tab>
+
+		</tabs>
+		
+		<container x="40" y="336">
+			<!-- 开始按钮 -->
+			<button name="btnStart" x="0" y="0" width="41" height="19" horizontal="false" 
+				img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="开始" text-color="black"/>
+			<!-- 停止按钮 -->
+			<button name="btnStop" x="50" y="0" width="41" height="19" horizontal="false" 
+				img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="停止" text-color="black"/>
+			<!-- 保存按钮 -->
+			<button name="btnSave" x="100" y="0" width="41" height="19" horizontal="false" 
+				img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text="保存" text-color="black"/>
+			
+			<!-- 挂机选项1-挂机 -->
+			<container x="160" y="4">
+				<checkbox name="chkPlugMode01" x="0" y="0" width="10" height="10" checked="1"
+					checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				<label x="15"  y="0" width="50" height="11">挂机</label>
+			</container>
+			<!-- 挂机选项2-拾取 -->
+			<container x="210" y="4">
+				<checkbox name="chkPlugMode02" x="0" y="0" width="10" height="10" checked="1"
+					checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				<label x="15"  y="0" width="50" height="11">拾取</label>
+			</container>
+			<!-- 挂机选项3-保护 -->
+			<container x="260" y="4">
+				<checkbox name="chkPlugMode03" x="0" y="0" width="10" height="10" checked="1"
+					checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
+					unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
+				<label x="15"  y="0" width="50" height="11">保护</label>
+			</container>
+		</container>
+
+		<!-- 关闭按钮 -->
+		<button name="btnClose" type="CLOSE" width="14" height="14" x="594" y="5"
+			img-src="texture/ui/PublicC.tga" img-offx="116" img-offy="175" horizontal="true" />
+	</form>
+</pmrui>
