@@ -49,6 +49,7 @@ Config =
 	fightTargetsStr = "全部",  --全部攻击目标
 	fightTargets = {},     --攻击目标集
 	fightAddTargets ={},   --加状态集
+	fightRange = 8,        --挂机范围
 	
 	fightSkillMax = 8,   --技能最大数量
 	fightSkill = {
@@ -63,17 +64,6 @@ Config =
 		 {skillName = "", intervalTime = 30, nextSkTime = 0}
 	},  
 
-	--队伍人员信息
-	teamMaxinfo = 5,
-	teamInfo = {
-		-- 是否选中，状态是否加完 自动组队 自动邀请
-		{play = 0, state = 0, team = false, Invite = false, name = ""},
-		{play = 0, state = 0, team = false, Invite = false, name = ""},
-		{play = 0, state = 0, team = false, Invite = false, name = ""},
-		{play = 0, state = 0, team = false, Invite = false, name = ""},
-		{play = 0, state = 0, team = false, Invite = false, name = ""}
-	},
-
 	fightFreeSit = false,    --空闲打坐
 	fightStayHere = false,   --原地打怪
 	fightOnlySkill = false,  --单单使用技能
@@ -82,35 +72,29 @@ Config =
 	
 	PickType = 0,  --捡取类型（默认：拾取全部物品）
 	PickTime = 500, --捡取延迟 毫秒
-	
-	-- 物品名称过滤配置
-	PickFilterMode = 0,  -- 0=不过滤, 1=白名单模式, 2=黑名单模式
-	PickFilterList = {},  -- 过滤物品列表
-	PickFilterMaxItems = 18,  -- 最大显示物品数量
 		
 	safeUseItemMax = 6,
 	safeUseItem = {
-		{itemName = "", intervalTime = 60, nextUseTime = 0, enable = 1},  
-		{itemName = "", intervalTime = 61, nextUseTime = 0, enable = 1}, 
-		{itemName = "", intervalTime = 62, nextUseTime = 0, enable = 1},
-		{itemName = "", intervalTime = 63, nextUseTime = 0, enable = 1},
-		{itemName = "", intervalTime = 64, nextUseTime = 0, enable = 1},
-		{itemName = "", intervalTime = 65, nextUseTime = 0, enable = 1}
+		{itemName = "", intervalTime = 60, nextUseTime = 0, enable = 0},  
+		{itemName = "", intervalTime = 61, nextUseTime = 0, enable = 0}, 
+		{itemName = "", intervalTime = 62, nextUseTime = 0, enable = 0},
+		{itemName = "", intervalTime = 63, nextUseTime = 0, enable = 0},
+		{itemName = "", intervalTime = 64, nextUseTime = 0, enable = 0},
+		{itemName = "", intervalTime = 65, nextUseTime = 0, enable = 0}
 	},
 	
 	-- HP物品配置
 	safeHpItem = {
-		{itemName = "", safeValue = 50, enable = 1},  -- HP1 (低血量)
-		{itemName = "", safeValue = 80, enable = 1}   -- HP2 (常规)
+		{itemName = "", safeValue = 50, enable = 0},  -- HP1 (低血量)
+		{itemName = "", safeValue = 80, enable = 0}   -- HP2 (常规)
 	},
 	-- SP物品配置  
 	safeSpItem = {
-		{itemName = "", safeValue = 50, enable = 1},  -- SP1 (低SP)
-		{itemName = "", safeValue = 80, enable = 1}   -- SP2 (常规)
+		{itemName = "", safeValue = 50, enable = 0},  -- SP1 (低SP)
+		{itemName = "", safeValue = 80, enable = 0}   -- SP2 (常规)
 	},
-	safePetHpItem = {itemPetName = "", safeValue = 100, enable = 1, growPetItem = "", growEnable = 1},
 	
-	safeSay = { sayContent = "", sayInterval = 30, nextSayTime = 0, sayEnable = 1}
+	safeSay = { sayContent = "", sayInterval = 30, nextSayTime = 0, sayEnable = 0}
 }
 
 -- 加载脚本
@@ -248,14 +232,10 @@ end
 -- nType = 7 矿物
 -- nType = 8 鱼群
 -- nType = 9 沉船
--- nType = 1 玩家
 function Game.FindCharByType(nType, iAlive, iMaxDis)
 	return CLU_Call("Gua_FindCharByType", nType, iAlive, iMaxDis)
 end
---跟随函数
-function Game.AutoFollow(pTarget)
-	return CLU_Call("Gua_AutoFollow",pTarget)
-end
+
 -- 搜索最近的游戏角色（包含怪物、NPC）
 function Game.FindCharByName(szName, iAlive, iMaxDis)
 	return CLU_Call("Gua_FindCharByName", szName, iAlive, iMaxDis)
@@ -301,11 +281,6 @@ function Game.SkillIsAttackTime(pSkill)
 	return CLU_Call("Gua_SkillIsAttackTime", pSkill) 	
 end
 
--- 判断人物目前是否有相应的状态
-function Game.GetSkillStateNow(pCha, szName)
-   return CLU_Call("Gua_GetSkillStateNow", pCha, szName)
-end
-
 -- 判断技能是否可以使用
 function Game.SkillIsCanUse(pSkill)
 	local sp = Game.GetCharAttr(Game.GetCurChar(), ATTR_SP)
@@ -320,21 +295,6 @@ function Game.SkillIsCanUse(pSkill)
 	return true
 end
 
---获取精灵最大体力
-function Game.GetPetAttrMaxHp()
-   return CLU_Call("Gua_GetPetMaxHP") 
-end
-
---获取精灵当前体力
-function Game.GetPetAttrCurHp()
-   return CLU_Call("Gua_GetPetCurrentHP") 
-end
-
---获取精灵当前成长值
-function Game.GetPetAttrGrow()
-   return CLU_Call("Gua_GetPetGrow") 
-end
-
 -- 获取当前角色属性
 function Game.GetCharAttr(pCha, sType)
 	return CLU_Call("Gua_GetCharAttr", pCha, sType) 	
@@ -343,30 +303,6 @@ end
 -- 获取角色ID
 function Game.GetCharAttachID(pCha)
 	return CLU_Call("Gua_GetCharAttachID", pCha)
-end
-
--- 获取角色名称
-function Game.GetCharName()
-    return CLU_Call("Gua_GetCharName")
-end
-
---通过组队获取队员名字
-function Game.GetTeamCharName(id)
-    return CLU_Call("Gua_GetTeamCharName", id)
-end
-
---通过获取人名字 自动组队 自动邀请
-function Game.AutoTeamChaName(pTarget, Name)
-    return CLU_Call("Gua_AutoTeamByName", pTarget, Name)
-end
-
---通过人物指针确认被邀请组队
-function Game.AutoTeamComfig(pCha)
-    return CLU_Call("Gua_AutoTeamConfirm", pCha)
-end 
---判断是否组队了
-function Game.IsInTeam(pCha)
-    return CLU_Call("IsCheckInTeam", pCha)
 end
 
 -- 获取当前角色
@@ -409,11 +345,6 @@ function Game.MoveTo(x, y)
 	return CLU_Call("Gua_MoveTo", x, y) 	
 end
 
--- 自动寻路到目标
-function Game.AutoMoveTo(x, y)
-    return CLU_Call("Gua_AutoMoveTo", x, y) 
-end
-
 -- 攻击指定目标（使用技能）
 function Game.Attack(pSkill, pTarget)
 	return CLU_Call("Gua_Attack", pSkill, pTarget) 	
@@ -433,7 +364,6 @@ end
 function Game.PickAllItem(bOnlyPickInBag, ms)
 	return CLU_Call("Gua_PickAllItem", bOnlyPickInBag, ms) 	
 end
-
 
 -- 按下键盘
 function Game.KeyDown(dwKey)
@@ -498,9 +428,6 @@ function OnPlugLoad()
 	-- 加载拾取脚本配置
 	OnPickScriptLoad(configFile)
 	
-	-- 刷新物品过滤显示
-	RefreshPickFilterDisplay()
-	
 	-- 加载安全脚本配置
 	OnSafeScriptLoad(configFile)
 
@@ -543,9 +470,6 @@ function OnPlugSave()
 	-- 生成配置文件路径
 	local configFile = "./user/plug-"..Game.GetCharAttachID(Game.GetCurChar())..".ini"
 	
-	-- 存档玩家昵称
-	Util.WriteConfigString(""..Game.GetCharName().."", "playerName", "player", configFile)
-	
 	-- 保存挂机配置
 	OnFightScriptSave(configFile)
 	
@@ -555,7 +479,7 @@ function OnPlugSave()
 	-- 保存安全配置
 	OnSafeScriptSave(configFile)
 		
-		-- 保存模式配置
+	-- 保存模式配置
 	Config.chkPlugMode01 = Form.GetCheckBoxValue("chkPlugMode01")
 	Util.WriteConfigInteger(Config.chkPlugMode01, "mode1", "plug", configFile)
 
@@ -565,7 +489,7 @@ function OnPlugSave()
 	Config.chkPlugMode03 = Form.GetCheckBoxValue("chkPlugMode03")
 	Util.WriteConfigInteger(Config.chkPlugMode03, "mode3", "plug", configFile)
 
-	Game.SysInfo("配置文件已保存 user/plug-"..Game.GetCharAttachID(Game.GetCurChar())..".ini" )
+	Game.SysInfo("配置文件已保存 " .. configFile )
 
 	return 0
 end
@@ -689,93 +613,6 @@ function LoadPositionsFromFile()
 	Game.SysInfo("成功导入 " .. posCount .. " 个挂机点从: user/positions-" .. fileName .. ".ini")
 end
 
--- 物品过滤管理功能
-function AddPickFilterItem()
-	local itemName = Form.GetEditValue("pickFilterItemName")
-	if itemName == nil or itemName == "" then
-		Game.SysInfo("请输入物品名称")
-		return
-	end
-	
-	-- 检查是否已存在
-	for i = 1, table.getn(Config.PickFilterList) do
-		if Config.PickFilterList[i] == itemName then
-			Game.SysInfo("物品 [" .. itemName .. "] 已存在于列表中")
-			return
-		end
-	end
-	
-	-- 检查列表是否已满
-	if table.getn(Config.PickFilterList) >= Config.PickFilterMaxItems then
-		Game.SysInfo("过滤列表已满，最多支持 " .. Config.PickFilterMaxItems .. " 个物品")
-		return
-	end
-	
-	-- 添加到列表
-	table.insert(Config.PickFilterList, itemName)
-	Form.SetEditValue("pickFilterItemName", "")  -- 清空输入框
-	RefreshPickFilterDisplay()
-	Game.SysInfo("已添加过滤列表物品: " .. itemName)
-end
-
-function ClearPickFilterList()
-	Config.PickFilterList = {}
-	RefreshPickFilterDisplay()
-	Game.SysInfo("已清空过滤列表物品！")
-end
-
-function RemovePickFilterItem(index)
-	if index < 1 or index > table.getn(Config.PickFilterList) then
-		return
-	end
-	
-	local itemName = Config.PickFilterList[index]
-	table.remove(Config.PickFilterList, index)
-	RefreshPickFilterDisplay()
-	Game.SysInfo("已删除过滤列表物品: " .. itemName)
-end
-
-function RefreshPickFilterDisplay()
-	-- 清空所有显示
-	for i = 1, Config.PickFilterMaxItems do
-		Form.SetEditValue("pickFilterList" .. i, "")
-	end
-	
-	-- 显示当前列表
-	for i = 1, table.getn(Config.PickFilterList) do
-		if i <= Config.PickFilterMaxItems then
-			Form.SetEditValue("pickFilterList" .. i, Config.PickFilterList[i])
-		end
-	end
-end
-
-function IsItemInFilterList(itemName)
-	for i = 1, table.getn(Config.PickFilterList) do
-		if Config.PickFilterList[i] == itemName then
-			return true
-		end
-	end
-	return false
-end
-
-function ShouldPickItem(itemName)
-	local isInList = IsItemInFilterList(itemName)
-	local filterMode = Form.GetCheckGroupActiveIndex("chkPickFilterMode")
-	
-	-- 如果列表为空，不进行过滤
-	if table.getn(Config.PickFilterList) == 0 then
-		return true
-	end
-	
-	if filterMode == 0 then
-		-- 白名单模式：只拾取列表中的物品
-		return isInList
-	else
-		-- 黑名单模式：不拾取列表中的物品
-		return not isInList
-	end
-end
-
 -- 打开支持链接
 function OpenSupportLink()
 	local url = "https://yx0hija69lf.feishu.cn/docx/P50Nd7jKpofxgcxj59KcWwKsnGf"
@@ -813,83 +650,10 @@ function OnMouseEvent(compentName, x, y, dwKey)
 		
 	elseif (compentName == "btnSupport") then			-- 支持一下按钮
 		OpenSupportLink()
-		
-	-- 物品过滤按钮处理
-	elseif (compentName == "btnPickFilterAdd") then		-- 插入物品按钮
-		AddPickFilterItem()
-		
-	elseif (compentName == "btnPickFilterClear") then	-- 清空列表按钮
-		ClearPickFilterList()
-		
-	-- 删除物品按钮处理
-	elseif (compentName == "btnPickFilterDel1") then
-		RemovePickFilterItem(1)
-	elseif (compentName == "btnPickFilterDel2") then
-		RemovePickFilterItem(2)
-	elseif (compentName == "btnPickFilterDel3") then
-		RemovePickFilterItem(3)
-	elseif (compentName == "btnPickFilterDel4") then
-		RemovePickFilterItem(4)
-	elseif (compentName == "btnPickFilterDel5") then
-		RemovePickFilterItem(5)
-	elseif (compentName == "btnPickFilterDel6") then
-		RemovePickFilterItem(6)
-	elseif (compentName == "btnPickFilterDel7") then
-		RemovePickFilterItem(7)
-	elseif (compentName == "btnPickFilterDel8") then
-		RemovePickFilterItem(8)
-	elseif (compentName == "btnPickFilterDel9") then
-		RemovePickFilterItem(9)
-	elseif (compentName == "btnPickFilterDel10") then
-		RemovePickFilterItem(10)
-	elseif (compentName == "btnPickFilterDel11") then
-		RemovePickFilterItem(11)
-	elseif (compentName == "btnPickFilterDel12") then
-		RemovePickFilterItem(12)
-	elseif (compentName == "btnPickFilterDel13") then
-		RemovePickFilterItem(13)
-	elseif (compentName == "btnPickFilterDel14") then
-		RemovePickFilterItem(14)
-	elseif (compentName == "btnPickFilterDel15") then
-		RemovePickFilterItem(15)
-	elseif (compentName == "btnPickFilterDel16") then
-		RemovePickFilterItem(16)
-	elseif (compentName == "btnPickFilterDel17") then
-		RemovePickFilterItem(17)
-	elseif (compentName == "btnPickFilterDel18") then
-		RemovePickFilterItem(18)
 	end
 	return 1
 end
--- 刷新组队信息
-function OnRefreshTeam(compentName)
 
-   if (compentName == "btnRefreshTeam"..1) then
-	  Form.SetEditValue("play1", Game.GetCharName()) --自己名字
-	  return 1
-	  
-   elseif (compentName == "btnRefreshTeam"..2) then
-	  Form.SetEditValue("play2", Game.GetTeamCharName(0))  --队员1
-	  return 1
-	  
-   elseif (compentName == "btnRefreshTeam"..3) then
-      Form.SetEditValue("play3", Game.GetTeamCharName(1))  --队员2
-	  return 1
-	  
-   elseif (compentName == "btnRefreshTeam"..4) then
-      Form.SetEditValue("play4", Game.GetTeamCharName(2))  --队员3
-	  return 1
-	  
-	elseif (compentName == "btnRefreshTeam"..5) then
-      Form.SetEditValue("play5", Game.GetTeamCharName(3))  --队员4
-	  return 1
-	  
-	else
-		BtnFollow_click(compentName)--跟随按钮
-		return 1
-    end
-
-end
 --获取定位
 function OnRefreshMouseEvent1(compentName, x, y, dwKey)
 	return 1
@@ -898,26 +662,4 @@ end
 function OnRefreshMouseEvent2(compentName, x, y, dwKey)
 	--Game.Say("我被点击了2")
 	return 1
-end
---跟随点击事件
-function BtnFollow_click(compentName)
-	if (compentName == "btnFollow"..2) then
-		SetFollowPlayer_Name(Game.GetTeamCharName(0))
-		return 1
-	elseif (compentName == "btnFollow"..3) then
-		SetFollowPlayer_Name(Game.GetTeamCharName(1))
-		return 1
-	elseif (compentName == "btnFollow"..4) then
-		SetFollowPlayer_Name(Game.GetTeamCharName(2))
-		return 1
-	elseif (compentName == "btnFollow"..5) then
-		SetFollowPlayer_Name(Game.GetTeamCharName(3))
-		return 1
-	end
-	return 0
-end
-function SetFollowPlayer_Name(player_name)
-	if player_name ~= nil then
-		Form.SetEditValue("playFollw",player_name)
-	end
 end
