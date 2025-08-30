@@ -13,7 +13,7 @@
 		<label name="labTitle" width="100" height="11" x="20" y="3"
 			color="white" font="DEFAULT" shadow="true" shadow-color="blue">辅助面板</label>-->
 		<label name="labTitle" width="100" height="11" x="260" y="5"
-			color="white" font="DEFAULT" shadow="true" shadow-color="blue">Ryanの辅助面板 v6.5</label>	
+			color="white" font="DEFAULT" shadow="true" shadow-color="blue">Ryanの辅助面板 v6.5.1</label>	
 
 		<tabs name="tabContainer" width="573" height="257" x="28" y="64" button-pos="custom" button-width="55" button-height="34">
 			<tab>
@@ -706,10 +706,12 @@
 				</container>
 				
 				<!-- 物品名称过滤功能 -->
+			<!--
 				<container x="275" y="5">
 					<label x="0" y="0" width="80" height="11">物品名称过滤：</label>
-					
+			-->	
 					<!-- 不过滤/白名单/黑名单选择 -->
+			<!--
 					<checkgroup name="chkPickFilterMode" x="0" y="20" width="250" height="10">
 						<checkbox x="10" y="0" width="10" height="10"
 							checked-src="texture/ui/QQ2.tga" checked-offx="52" checked-offy="231"
@@ -726,8 +728,9 @@
 							unchecked-src="texture/ui/QQ2.tga" unchecked-offx="40" unchecked-offy="231"/>
 						<label x="187" y="0" width="60" height="11">黑名单模式</label>
 					</checkgroup>
-					
+			-->	
 					<!-- 物品名称输入和操作按钮 -->
+			<!--
 					<label x="0" y="40" width="60" height="11">物品名称：</label>
 					<img x="3" y="55" width="144" height="18" src="texture/ui2022/core/input.tga" />
 					<input name="pickFilterItemName" x="10" y="58" width="144" height="14" color="black" value=""/>
@@ -736,12 +739,14 @@
 						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
 					<button name="btnPickFilterClear" x="214" y="55" width="41" height="19" text="清空" horizontal="false"
 						img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
-					
+			-->	
 					<!-- 物品列表显示区域 -->
+			<!--
 					<label x="0" y="80" width="60" height="11">物品列表：</label>
 					<container x="0" y="95" width="220" height="120">
-						
+			-->		
 						<!-- 物品列表内容（动态生成） -->
+			<!--
 						<img x="5" y="3" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
 						<input name="pickFilterList1" x="10" y="6" width="96" height="14" color="black" value="" readonly="true"/>
 						
@@ -768,8 +773,9 @@
 						
 						<img x="5" y="147" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
 						<input name="pickFilterList9" x="10" y="150" width="96" height="14" color="black" value="" readonly="true"/>
-						
+			-->		
 						<!-- 删除按钮 -->
+			<!--
 						<button name="btnPickFilterDel1" x="102" y="3" width="41" height="19" text="删除" horizontal="false"
 							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
 						<button name="btnPickFilterDel2" x="102" y="21" width="41" height="19" text="删除" horizontal="false"
@@ -791,8 +797,9 @@
 					</container>
 
 					<container x="145" y="95" width="220" height="120">
-						
+			-->		
 						<!-- 物品列表内容（动态生成） -->
+			<!--
 						<img x="5" y="3" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
 						<input name="pickFilterList10" x="10" y="6" width="96" height="14" color="black" value="" readonly="true"/>
 						
@@ -819,8 +826,9 @@
 						
 						<img x="5" y="147" width="96" height="18" src="texture/ui2022/core/input-small.tga" />
 						<input name="pickFilterList18" x="10" y="150" width="96" height="14" color="black" value="" readonly="true"/>
-						
+			-->		
 						<!-- 删除按钮 -->
+			<!--
 						<button name="btnPickFilterDel10" x="102" y="3" width="41" height="19" text="删除" horizontal="false"
 							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
 						<button name="btnPickFilterDel11" x="102" y="21" width="41" height="19" text="删除" horizontal="false"
@@ -840,8 +848,8 @@
 						<button name="btnPickFilterDel18" x="102" y="147" width="41" height="19" text="删除" horizontal="false"
 							img-src="texture/ui2022/core/button.tga" img-offx="82" img-offy="0" text-color="black"/>
 					</container>
-
 				</container>
+			-->
 			</tab>
 			
 			<tab>

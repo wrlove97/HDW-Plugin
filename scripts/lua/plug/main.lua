@@ -1,6 +1,7 @@
 ----修改调整.by:初雨Ryan -20250824
 -- 加载状态
 local bIsLoaded = false
+local announcementLastTime = 0
 
 ATTR_HP = 1
 ATTR_SP = 2
@@ -573,7 +574,8 @@ end
 -- 脚本执行事件触发
 function OnPlugExecTimer()
 	local ret = 0
-	
+	local now = os.time()
+		
 	-- 打怪模块
 	if Form.GetCheckBoxValue("chkPlugMode01") == 1 then
 		DoFights(0)
@@ -587,6 +589,12 @@ function OnPlugExecTimer()
 	-- 保护模块
 	if Form.GetCheckBoxValue("chkPlugMode03") == 1 then
 		DoSafe(0)
+	end
+
+	-- 定时通告功能
+	if Util.Mod(now, 900) == 0 and now - announcementLastTime >= 900 then
+		Game.SysInfo("欢迎使用Ryanの辅助面板，感谢支持！如果觉得好用请“支持一下”。另外强烈谴责恶意剽窃成果的人！！！")
+		announcementLastTime = now
 	end
 
 	return 0
