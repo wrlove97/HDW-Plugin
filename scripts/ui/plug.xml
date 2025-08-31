@@ -13,7 +13,7 @@
 		<label name="labTitle" width="100" height="11" x="20" y="3"
 			color="white" font="DEFAULT" shadow="true" shadow-color="blue">¸¨ÖúÃæ°å</label>-->
 		<label name="labTitle" width="100" height="11" x="260" y="5"
-			color="white" font="DEFAULT" shadow="true" shadow-color="blue">Ryan¤Î¸¨ÖúÃæ°å v7.0</label>	
+			color="white" font="DEFAULT" shadow="true" shadow-color="blue">Ryan¤Î¸¨ÖúÃæ°å v7.1</label>	
 
 		<tabs name="tabContainer" width="573" height="257" x="28" y="64" button-pos="custom" button-width="55" button-height="34">
 			<tab>

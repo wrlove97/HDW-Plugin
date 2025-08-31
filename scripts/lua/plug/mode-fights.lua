@@ -35,7 +35,7 @@ function GetAttackSkillPtr()
     local pSkillName = nil
     for i = 1, Config.fightSkillMax do
         pSkillName = Form.GetCommandText("fightSkill" .. i)
-        pSkill = Game.FindSkillByName(pSkillName)   -- 通过技能名称获取技能指针
+        pSkill = Game.FindSkillByName(pSkillName)       -- 通过技能名称获取技能指针
         if pSkill ~= nil and pSkillName ~= "治愈术" then
             local now = os.clock() * skillAllTime
             if Game.SkillIsCanUse(pSkill) and UseNextSkillCD(i, now, pSkillName) then   -- 判断是否可以使用技能 和 设置下一次技能使用的CD
@@ -48,7 +48,7 @@ end
 
 -- 计算距离
 function GetDistance(x1, y1, x2, y2)
-    local offx = math.abs(x1 - x2) -- 取绝对值
+    local offx = math.abs(x1 - x2)      -- 取绝对值
     local offy = math.abs(y1 - y2)
     return math.sqrt(offx * offx + offy * offy) -- 返回开平方值
 end
@@ -77,7 +77,7 @@ function IsStayPut()
 end
 
 -- 处理寻怪状态
-function HanldeFindMonster()
+function HandleFindMonster()
     if (fightTargetPtr == nil) then
         -- 目标为空，开始通过 名字 目标 是否存活 范围 来寻找目标
         fightTargetPtr = Game.FindCharByEveryName(Config.fightTargetType, Config.fightTargets, 1, Config.fightRange)
@@ -123,7 +123,7 @@ function GetTeamName()
 end
 
 -- 处理医生寻队友状态
-function HanldeAddTeamState()
+function HandleAddTeamState()
     if fightTargetPtr == nil then
         GetTeamName() -- 获取目标
         fightTargetPtr = Game.FindCharByEveryName(Config.fightTargetType, Config.fightAddTargets, 1, Config.fightRange)
@@ -150,7 +150,7 @@ function HanldeAddTeamState()
 end
 
 -- 挂机点巡逻
-function HanldeNextPos()
+function HandleNextPos()
     local startIndex = Config.fightPosIndex
     for i = 1, Config.fightPosMax do
         -- 直接增加索引并确保在范围内
@@ -204,17 +204,18 @@ end
 
 --空闲自动跟随自定玩家
 function  AutoFollow()
-    --测试跟随
+    --判断跟随
     if (Form.GetCheckBoxValue("chkAutouFollow") ~= 1 ) then
         return      
     end
 	
     local Play_name = Form.GetEditValue("playFollw")
-    if Play_name == nil then 
+    if Play_name == nil or Play_name == "" then 
+        Game.SysInfo("请选择或输入要跟随的目标")
 	    return 
 	end
 	
-    local pPlay = Game.FindCharByName(Play_name ,1 , Config.fightRange)
+    local pPlay = Game.FindCharByName(Play_name ,1 , math.min(Config.fightRange * 2, 25))
     if pPlay == nil then 
 	   return 
 	end
@@ -245,7 +246,7 @@ function IsAddStates(player)
  end
 
 -- 处理攻击状态 0：正常攻击，1：目标不存在 2：目标已死亡 3：目前是否有状态（医生用） 4：目标超过20秒未死亡
-function HanldeAttackMonster()
+function HandleAttackMonster()
     
     -- 判断目标是否为空
     if (fightTargetPtr == nil or fightTargetId < 0) then 
@@ -330,7 +331,7 @@ function CheckMonsterAlongTheWay()
     if target  then
         fightTargetPtr = target
         fightTargetId = Game.GetCharAttachID(target)
-        HanldeAttackMonster() -- 执行攻击逻辑	--20250320.调整.by:初雨Ryan
+        HandleAttackMonster() -- 执行攻击逻辑	--20250320.调整.by:初雨Ryan
         return true
     end
     return false
@@ -614,8 +615,14 @@ function FightMonsters(nDeep)
 
    -- 寻找怪物
         if (fightState == 0) then -- 没有攻击状态，开始执行
+            -- 如果正在跟随中，强制跟随，跳过所有其他逻辑
+            if IsFollowing() then
+                AutoFollow()
+                return 0
+            end
+            
             -- 如果寻怪成功进入攻击状态
-            if (HanldeFindMonster() == true) then
+            if (HandleFindMonster() == true) then
                 --Game.SysInfo("寻怪成功马上攻击")
                 return NextState(nDeep, 1, true)
             else
@@ -627,7 +634,7 @@ function FightMonsters(nDeep)
                         AutoFollow()
                     end
                 else
-                    if (HanldeNextPos() == true) then
+                    if (HandleNextPos() == true) then
                         --Game.SysInfo("开启移动下一个目标")
                         ClearAttackTarget()  ---清空攻击目标
                         return NextState(nDeep, 2, true)
@@ -640,6 +647,12 @@ function FightMonsters(nDeep)
 
             -- 攻击怪物
         elseif (fightState == 1) then
+            -- 如果正在跟随中，强制跟随，跳过攻击
+            if IsFollowing() then
+                AutoFollow()
+                return 0
+            end
+            
             -- 检测是否偏离挂机区 偏离了去寻找目标
             -- if IsOutAttackArea() then
 			    -- Game.SysInfo("移动到范围目标")
@@ -647,7 +660,7 @@ function FightMonsters(nDeep)
             -- end
 
             -- 如果攻击异常重新寻怪
-            local attackState = HanldeAttackMonster()
+            local attackState = HandleAttackMonster()
 			--Game.SysInfo("马上攻击")
             if attackState == 1 or attackState == 2 or attackState == 4 then -- 目标HP小于0或者=0 为空重新寻找，或者超过20秒未死亡
 			    --Game.SysInfo("目标有异常")
@@ -656,6 +669,12 @@ function FightMonsters(nDeep)
 
             -- 向挂机区移动
         elseif (fightState == 2) then
+            -- 如果正在跟随中，强制跟随，跳过移动
+            if IsFollowing() then
+                AutoFollow()
+                return 0
+            end
+            
             --Game.SysInfo("移动到目标")
             ClearAttackTarget()
             local dis = GetCurDistance(Config.fightPosCur.x, Config.fightPosCur.y)
@@ -689,8 +708,8 @@ function DoDoctors(nDeep)
 		
             --Game.SysInfo("寻找队友中ing")
             -- 如果找到队友成功进入补助状态
-            if (HanldeAddTeamState() == true) then
-			    AutoFollow()
+            if (HandleAddTeamState() == true) then
+                AutoFollow()
                 return NextState(nDeep, 1, true)
             else
                 if (Config.fightStayHere) then
@@ -701,9 +720,9 @@ function DoDoctors(nDeep)
                         AutoFollow() --跟随
                     end
                 else
-                    if (HanldeNextPos() == true) then
+                    if (HandleNextPos() == true) then
                          --Game.SysInfo("开启移动下一个目标")
-						AutoFollow()
+                        AutoFollow()
                         ClearAttackTarget()
                         return NextState(nDeep, 2, true)
                     else
@@ -724,7 +743,7 @@ function DoDoctors(nDeep)
             -- end
             AutoFollow()
             -- 如果队员异常重新寻找
-            local attackState = HanldeAttackMonster()
+            local attackState = HandleAttackMonster()
             if (attackState == 1) or (attackState == 2) or (attackState == 3) then -- 目标为空重新寻找 && 目标HP小于0或者=0 重新寻找 && 目前已经有状态，重新寻找
                 return NextState(nDeep, 0, true)
             end
@@ -758,4 +777,30 @@ function DoFights(nDeep)
     end
 
     return 0
+end
+
+
+
+-- 检查是否正在跟随中
+function IsFollowing()
+    -- 如果勾选了空闲跟随，检查是否有跟随目标
+    if (Form.GetCheckBoxValue("chkAutouFollow") == 1) then
+        local Play_name = Form.GetEditValue("playFollw")
+        if Play_name ~= nil and Play_name ~= "" then
+            -- 使用更大的搜索范围来检查目标是否在远处（最大25格）
+            local pPlay = Game.FindCharByName(Play_name, 1, math.min(Config.fightRange * 2, 25))
+            if pPlay ~= nil then
+                -- 如果能在正常范围内找到目标，说明距离较近，不需要强制跟随
+                local pPlayNear = Game.FindCharByName(Play_name, 1, 5)
+                if pPlayNear == nil then
+                    -- 在远距离能找到，但在近距离找不到，说明距离较远，需要跟随
+                    return true
+                end
+            else
+                -- 如果在扩大范围内也找不到，说明目标很远或不存在，不进行跟随
+                return false
+            end
+        end
+    end
+    return false
 end
