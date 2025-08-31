@@ -1,4 +1,4 @@
-----修改调整.by:初雨Ryan -20250824
+----修改调整.by:初雨Ryan -20250831
 -- 加载状态
 local bIsLoaded = false
 local announcementLastTime = 0
@@ -85,9 +85,8 @@ Config =
 	PickTime = 500, --捡取延迟 毫秒
 	
 	-- 物品名称过滤配置
-	PickFilterMode = 0,  -- 0=不过滤, 1=白名单模式, 2=黑名单模式
 	PickFilterList = {},  -- 过滤物品列表
-	PickFilterMaxItems = 18,  -- 最大显示物品数量
+	PickFilterMaxItems = 16,  -- 最大显示物品数量
 		
 	safeUseItemMax = 6,
 	safeUseItem = {
@@ -435,6 +434,10 @@ function Game.PickAllItem(bOnlyPickInBag, ms)
 	return CLU_Call("Gua_PickAllItem", bOnlyPickInBag, ms) 	
 end
 
+-- 拾取道具 只拾取特定名称物品
+function Game.PickItemName(szItemName)
+	return CLU_Call("Gua_PickItemName", szItemName) 	
+end
 
 -- 按下键盘
 function Game.KeyDown(dwKey)
@@ -475,7 +478,7 @@ function OnPlugStarted()
 	
 	LoadPlugScript(true)
 
-	OnPlugSave()
+	-- OnPlugSave()
 	return 0
 end
 
@@ -499,42 +502,27 @@ function OnPlugLoad()
 	-- 加载拾取脚本配置
 	OnPickScriptLoad(configFile)
 	
-	-- 刷新物品过滤显示
-	RefreshPickFilterDisplay()
-	
 	-- 加载安全脚本配置
 	OnSafeScriptLoad(configFile)
 
 	-- 加载挂机模式配置
-	local needSaveMainDefaults = false
-	
 	Config.chkPlugMode01 = Util.ReadConfigInteger("mode1", "plug", configFile)
 	if Config.chkPlugMode01 == nil then 
 		Config.chkPlugMode01 = 0
-		needSaveMainDefaults = true
 	end
 	Form.SetCheckBoxValue("chkPlugMode01", Config.chkPlugMode01)
 
 	Config.chkPlugMode02 = Util.ReadConfigInteger("mode2", "plug", configFile)
 	if Config.chkPlugMode02 == nil then 
 		Config.chkPlugMode02 = 0
-		needSaveMainDefaults = true
 	end
 	Form.SetCheckBoxValue("chkPlugMode02", Config.chkPlugMode02)
 
 	Config.chkPlugMode03 = Util.ReadConfigInteger("mode3", "plug", configFile)
 	if Config.chkPlugMode03 == nil then 
 		Config.chkPlugMode03 = 0
-		needSaveMainDefaults = true
 	end
 	Form.SetCheckBoxValue("chkPlugMode03", Config.chkPlugMode03)
-	
-	-- 如果需要保存默认值，则立即写入配置文件
-	if needSaveMainDefaults then
-		Util.WriteConfigInteger(Config.chkPlugMode01, "mode1", "plug", configFile)
-		Util.WriteConfigInteger(Config.chkPlugMode02, "mode2", "plug", configFile)
-		Util.WriteConfigInteger(Config.chkPlugMode03, "mode3", "plug", configFile)
-	end
 	
 	return 0
 end
@@ -544,19 +532,10 @@ function OnPlugSave()
 	-- 生成配置文件路径
 	local configFile = "./user/plug-"..Game.GetCharAttachID(Game.GetCurChar())..".ini"
 	
-	-- 存档玩家昵称
+	-- 1. 保存玩家配置 [player]
 	Util.WriteConfigString(""..Game.GetCharName().."", "playerName", "player", configFile)
 	
-	-- 保存挂机配置
-	OnFightScriptSave(configFile)
-	
-	-- 保存拾取配置
-	OnPickScriptSave(configFile)
-	
-	-- 保存安全配置
-	OnSafeScriptSave(configFile)
-		
-		-- 保存模式配置
+	-- 2. 保存插件模式配置 [plug]
 	Config.chkPlugMode01 = Form.GetCheckBoxValue("chkPlugMode01")
 	Util.WriteConfigInteger(Config.chkPlugMode01, "mode1", "plug", configFile)
 
@@ -565,6 +544,15 @@ function OnPlugSave()
 
 	Config.chkPlugMode03 = Form.GetCheckBoxValue("chkPlugMode03")
 	Util.WriteConfigInteger(Config.chkPlugMode03, "mode3", "plug", configFile)
+	
+	-- 3. 保存挂机配置 [fight]
+	OnFightScriptSave(configFile)
+	
+	-- 4. 保存拾取配置 [pick]
+	OnPickScriptSave(configFile)
+	
+	-- 5. 保存安全配置 [safe]
+	OnSafeScriptSave(configFile)
 
 	Game.SysInfo("配置文件已保存 user/plug-"..Game.GetCharAttachID(Game.GetCurChar())..".ini" )
 
@@ -697,92 +685,8 @@ function LoadPositionsFromFile()
 	Game.SysInfo("成功导入 " .. posCount .. " 个挂机点从: user/positions-" .. fileName .. ".ini")
 end
 
--- 物品过滤管理功能
-function AddPickFilterItem()
-	local itemName = Form.GetEditValue("pickFilterItemName")
-	if itemName == nil or itemName == "" then
-		Game.SysInfo("请输入物品名称")
-		return
-	end
-	
-	-- 检查是否已存在
-	for i = 1, table.getn(Config.PickFilterList) do
-		if Config.PickFilterList[i] == itemName then
-			Game.SysInfo("物品 [" .. itemName .. "] 已存在于列表中")
-			return
-		end
-	end
-	
-	-- 检查列表是否已满
-	if table.getn(Config.PickFilterList) >= Config.PickFilterMaxItems then
-		Game.SysInfo("过滤列表已满，最多支持 " .. Config.PickFilterMaxItems .. " 个物品")
-		return
-	end
-	
-	-- 添加到列表
-	table.insert(Config.PickFilterList, itemName)
-	Form.SetEditValue("pickFilterItemName", "")  -- 清空输入框
-	RefreshPickFilterDisplay()
-	Game.SysInfo("已添加过滤列表物品: " .. itemName)
-end
 
-function ClearPickFilterList()
-	Config.PickFilterList = {}
-	RefreshPickFilterDisplay()
-	Game.SysInfo("已清空过滤列表物品！")
-end
 
-function RemovePickFilterItem(index)
-	if index < 1 or index > table.getn(Config.PickFilterList) then
-		return
-	end
-	
-	local itemName = Config.PickFilterList[index]
-	table.remove(Config.PickFilterList, index)
-	RefreshPickFilterDisplay()
-	Game.SysInfo("已删除过滤列表物品: " .. itemName)
-end
-
-function RefreshPickFilterDisplay()
-	-- 清空所有显示
-	for i = 1, Config.PickFilterMaxItems do
-		Form.SetEditValue("pickFilterList" .. i, "")
-	end
-	
-	-- 显示当前列表
-	for i = 1, table.getn(Config.PickFilterList) do
-		if i <= Config.PickFilterMaxItems then
-			Form.SetEditValue("pickFilterList" .. i, Config.PickFilterList[i])
-		end
-	end
-end
-
-function IsItemInFilterList(itemName)
-	for i = 1, table.getn(Config.PickFilterList) do
-		if Config.PickFilterList[i] == itemName then
-			return true
-		end
-	end
-	return false
-end
-
-function ShouldPickItem(itemName)
-	local isInList = IsItemInFilterList(itemName)
-	local filterMode = Form.GetCheckGroupActiveIndex("chkPickFilterMode")
-	
-	-- 如果列表为空，不进行过滤
-	if table.getn(Config.PickFilterList) == 0 then
-		return true
-	end
-	
-	if filterMode == 0 then
-		-- 白名单模式：只拾取列表中的物品
-		return isInList
-	else
-		-- 黑名单模式：不拾取列表中的物品
-		return not isInList
-	end
-end
 
 -- 打开支持链接
 function OpenSupportLink()
@@ -822,11 +726,7 @@ function OnMouseEvent(compentName, x, y, dwKey)
 	elseif (compentName == "btnSupport") then			-- 支持一下按钮
 		OpenSupportLink()
 		
-	-- 物品过滤按钮处理
-	elseif (compentName == "btnPickFilterAdd") then		-- 插入物品按钮
-		AddPickFilterItem()
-		
-	elseif (compentName == "btnPickFilterClear") then	-- 清空列表按钮
+	elseif (compentName == "btnPickFilterClear") then	-- 清空全部物品按钮
 		ClearPickFilterList()
 		
 	-- 删除物品按钮处理
@@ -862,10 +762,6 @@ function OnMouseEvent(compentName, x, y, dwKey)
 		RemovePickFilterItem(15)
 	elseif (compentName == "btnPickFilterDel16") then
 		RemovePickFilterItem(16)
-	elseif (compentName == "btnPickFilterDel17") then
-		RemovePickFilterItem(17)
-	elseif (compentName == "btnPickFilterDel18") then
-		RemovePickFilterItem(18)
 	end
 	return 1
 end

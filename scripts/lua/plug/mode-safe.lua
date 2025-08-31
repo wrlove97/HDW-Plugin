@@ -5,7 +5,6 @@ local MIN_INTERVAL_TIME = 1  -- 最小间隔时间（秒）
 --读取配置
 function OnSafeScriptLoad(configFile)
 	-- 读取HP物品配置 (HP1和HP2)
-	local needSaveDefaults = false
 	for i = 1, 2 do
 		Config.safeHpItem[i].itemName = Util.ReadConfigString("safeHpItemName"..i, "safe", configFile)
 		Config.safeHpItem[i].safeValue = Util.ReadConfigInteger("safeHpItemMax"..i, "safe", configFile)
@@ -14,15 +13,12 @@ function OnSafeScriptLoad(configFile)
 		-- 设置默认值
 		if Config.safeHpItem[i].itemName == nil then 
 			Config.safeHpItem[i].itemName = ""
-			needSaveDefaults = true
 		end
 		if Config.safeHpItem[i].safeValue == nil or Config.safeHpItem[i].safeValue <= 0 then 
 			Config.safeHpItem[i].safeValue = (i == 1) and 50 or 80
-			needSaveDefaults = true
 		end
 		if Config.safeHpItem[i].enable == nil then 
 			Config.safeHpItem[i].enable = 0
-			needSaveDefaults = true
 		end
 		
 		-- 设置UI值
@@ -40,15 +36,12 @@ function OnSafeScriptLoad(configFile)
 		-- 设置默认值
 		if Config.safeSpItem[i].itemName == nil then 
 			Config.safeSpItem[i].itemName = ""
-			needSaveDefaults = true
 		end
 		if Config.safeSpItem[i].safeValue == nil or Config.safeSpItem[i].safeValue <= 0 then 
 			Config.safeSpItem[i].safeValue = (i == 1) and 50 or 80
-			needSaveDefaults = true
 		end
 		if Config.safeSpItem[i].enable == nil then 
 			Config.safeSpItem[i].enable = 0
-			needSaveDefaults = true
 		end
 		
 		-- 设置UI值
@@ -66,15 +59,12 @@ function OnSafeScriptLoad(configFile)
 		-- 设置默认值
 		if Config.safeUseItem[i].itemName == nil then 
 			Config.safeUseItem[i].itemName = ""
-			needSaveDefaults = true
 		end
 		if Config.safeUseItem[i].intervalTime == nil or Config.safeUseItem[i].intervalTime < MIN_INTERVAL_TIME then
 			Config.safeUseItem[i].intervalTime = 59 + i  -- 60, 61, 62, 63, 64, 65
-			needSaveDefaults = true
 		end
 		if Config.safeUseItem[i].enable == nil then 
 			Config.safeUseItem[i].enable = 0
-			needSaveDefaults = true
 		end
 		
 		Form.SetEditValue("useItemName"..i, Config.safeUseItem[i].itemName)
@@ -90,15 +80,12 @@ function OnSafeScriptLoad(configFile)
 	-- 设置默认值
 	if Config.safeSay.sayContent == nil then 
 		Config.safeSay.sayContent = ""
-		needSaveDefaults = true
 	end
 	if Config.safeSay.sayInterval == nil or Config.safeSay.sayInterval < 5 then 
 		Config.safeSay.sayInterval = 30
-		needSaveDefaults = true
 	end
 	if Config.safeSay.sayEnable == nil then 
 		Config.safeSay.sayEnable = 0
-		needSaveDefaults = true
 	end
 	
 	-- 设置定时喊话UI值
@@ -116,23 +103,18 @@ function OnSafeScriptLoad(configFile)
 	-- 设置精灵默认值
 	if Config.safePetHpItem.itemPetName == nil then 
 		Config.safePetHpItem.itemPetName = ""
-		needSaveDefaults = true
 	end
 	if Config.safePetHpItem.safeValue == nil or Config.safePetHpItem.safeValue <= 0 then 
 		Config.safePetHpItem.safeValue = 50
-		needSaveDefaults = true
 	end
 	if Config.safePetHpItem.enable == nil then 
 		Config.safePetHpItem.enable = 0
-		needSaveDefaults = true
 	end
 	if Config.safePetHpItem.growPetItem == nil then 
 		Config.safePetHpItem.growPetItem = ""
-		needSaveDefaults = true
 	end
 	if Config.safePetHpItem.growEnable == nil then 
 		Config.safePetHpItem.growEnable = 0
-		needSaveDefaults = true
 	end
 	
 	-- 设置读取后的值
@@ -153,19 +135,15 @@ function OnSafeScriptLoad(configFile)
 		-- 设置队员默认值
 		if Config.teamInfo[t].play == nil then 
 			Config.teamInfo[t].play = 0
-			needSaveDefaults = true
 		end
 		if Config.teamInfo[t].team == nil then 
 			Config.teamInfo[t].team = 0
-			needSaveDefaults = true
 		end
 		if Config.teamInfo[t].Invite == nil then 
 			Config.teamInfo[t].Invite = 0
-			needSaveDefaults = true
 		end
 		if Config.teamInfo[t].name == nil then 
 			Config.teamInfo[t].name = ""
-			needSaveDefaults = true
 		end
 		
 		Form.SetEditValue("play"..t, Config.teamInfo[t].name)
@@ -174,10 +152,6 @@ function OnSafeScriptLoad(configFile)
 		Form.SetCheckBoxValue("chkInvite0"..t, Config.teamInfo[t].Invite)
     end
     
-    -- 如果需要保存默认值，则立即写入配置文件
-    if needSaveDefaults then
-    	WriteDefaultSafeConfig(configFile)
-    end
 end
 
 -- 写入默认安全配置
