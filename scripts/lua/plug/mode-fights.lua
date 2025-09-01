@@ -37,9 +37,24 @@ function GetAttackSkillPtr()
         pSkillName = Form.GetCommandText("fightSkill" .. i)
         pSkill = Game.FindSkillByName(pSkillName)       -- 通过技能名称获取技能指针
         if pSkill ~= nil and pSkillName ~= "治愈术" then
-            local now = os.clock() * skillAllTime
-            if Game.SkillIsCanUse(pSkill) and UseNextSkillCD(i, now, pSkillName) then   -- 判断是否可以使用技能 和 设置下一次技能使用的CD
-                return pSkill
+            -- 如果是医生模式并且目标是人，检查目标是否已经有这个状态
+            if (Form.GetCheckBoxValue("chkOnlyDoctor") == 1) and (fightTargetPtr ~= nil) and (Form.GetCheckGroupActiveIndex("fightTargetType") == 5) then
+                -- 检查目标是否已经有这个状态，如果有就跳过
+                if Game.GetSkillStateNow(fightTargetPtr, pSkillName) ~= 0 then
+                    -- 目标已经有这个状态，跳过这个技能
+                else
+                    -- 目标没有这个状态，检查是否可以使用
+                    local now = os.clock() * skillAllTime
+                    if Game.SkillIsCanUse(pSkill) and UseNextSkillCD(i, now, pSkillName) then   -- 判断是否可以使用技能 和 设置下一次技能使用的CD
+                        return pSkill
+                    end
+                end
+            else
+                -- 非医生模式，使用原来的逻辑
+                local now = os.clock() * skillAllTime
+                if Game.SkillIsCanUse(pSkill) and UseNextSkillCD(i, now, pSkillName) then   -- 判断是否可以使用技能 和 设置下一次技能使用的CD
+                    return pSkill
+                end
             end
         end
     end
@@ -570,7 +585,7 @@ function UseBuffSkills()
                 if skillName == buffSkill then
                     local skillPtr = Game.FindSkillByName(skillName)
                     if skillPtr ~= nil then
-                        -- 对自己使用增益技能：仅在没有该状态时施放
+                        -- 对自己使用增益技能：仅在没有该状态时施放 Ryan-20250828
                         local selfChar = Game.GetCurChar()
                         if Game.GetSkillStateNow(selfChar, skillName) == 0 then
                             Game.Attack(skillPtr, selfChar)
@@ -627,11 +642,13 @@ function FightMonsters(nDeep)
                 return NextState(nDeep, 1, true)
             else
                 if Config.fightStayHere then -- 是否选择原地打怪
-                    if IsOutAttackArea() then -- 检测目标范围
+                    -- 原地挂机模式：超出范围 或 在范围内没目标 都返回挂机点
+                    if IsOutAttackArea() then
+                        --Game.SysInfo("超出挂机范围，返回挂机点")
                         return NextState(nDeep, 2, true)
                     else
-                        HandleFreeSit() -- 空闲打坐
-                        AutoFollow()
+                        --Game.SysInfo("范围内没目标了，返回挂机点")
+                        return NextState(nDeep, 2, true)
                     end
                 else
                     if (HandleNextPos() == true) then
@@ -688,7 +705,20 @@ function FightMonsters(nDeep)
                 end
             else
                 stayputNUM = 0
-                return NextState(nDeep, 0, true)
+                -- 到达挂机点后，如果是原地挂机模式，先检查是否有目标
+                if Config.fightStayHere then
+                    -- 检查是否有目标，如果有目标直接进入攻击状态
+                    if (HandleFindMonster() == true) then
+                        return NextState(nDeep, 1, true)
+                    else
+                        -- 没有目标，进行空闲打坐和跟随
+                        HandleFreeSit()
+                        AutoFollow()
+                        return 0
+                    end
+                else
+                    return NextState(nDeep, 0, true)
+                end
             end
         else
             Util.Debug("未知状态...")
@@ -713,11 +743,13 @@ function DoDoctors(nDeep)
                 return NextState(nDeep, 1, true)
             else
                 if (Config.fightStayHere) then
-                    if (IsOutAttackArea()) then -- 检测目标范围
+                    -- 原地挂机模式：超出范围 或 在范围内没队友 都返回挂机点
+                    if (IsOutAttackArea()) then
+                        --Game.SysInfo("超出挂机范围，返回挂机点")
                         return NextState(nDeep, 2, true)
                     else
-                        HandleFreeSit() -- 空闲打坐
-                        AutoFollow() --跟随
+                        --Game.SysInfo("范围内没队友，返回挂机点")
+                        return NextState(nDeep, 2, true)
                     end
                 else
                     if (HandleNextPos() == true) then
@@ -756,7 +788,20 @@ function DoDoctors(nDeep)
             if (dis > 1) then
                 Game.MoveTo(Config.fightPosCur.x, Config.fightPosCur.y)
             else
-                return NextState(nDeep, 0, true)
+                -- 到达挂机点后，如果是原地挂机模式，先检查是否有队友
+                if Config.fightStayHere then
+                    -- 检查是否有队友，如果有队友直接进入加状态
+                    if (HandleAddTeamState() == true) then
+                        return NextState(nDeep, 1, true)
+                    else
+                        -- 没有队友，进行空闲打坐和跟随
+                        HandleFreeSit()
+                        AutoFollow()
+                        return 0
+                    end
+                else
+                    return NextState(nDeep, 0, true)
+                end
             end
         else
             Util.Debug("未知状态...")
