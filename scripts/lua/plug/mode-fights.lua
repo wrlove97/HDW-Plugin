@@ -1,4 +1,4 @@
-----修改调整.by:初雨Ryan -20250828
+----最终修改调整.by:初雨Ryan -20250903
 ----- 脚本状态机
 ----1、给队友加状态可以采取 定时器加法，当一个角色加了状态后，延迟一定时间，再进行下一个角色	
 ----2、目前采用的医生加状态机制是 遍历完每个人物并判断是否全部加完状态，再进行下一个人物的状态
@@ -39,16 +39,15 @@ function GetAttackSkillPtr()
         if pSkill ~= nil and pSkillName ~= "治愈术" then
             -- 如果是医生模式并且目标是人，检查目标是否已经有这个状态
             if (Form.GetCheckBoxValue("chkOnlyDoctor") == 1) and (fightTargetPtr ~= nil) and (Form.GetCheckGroupActiveIndex("fightTargetType") == 5) then
-                -- 检查目标是否已经有这个状态，如果有就跳过
-                if Game.GetSkillStateNow(fightTargetPtr, pSkillName) ~= 0 then
-                    -- 目标已经有这个状态，跳过这个技能
-                else
+                -- 检查目标是否已经有这个状态，如果没有才释放
+                if Game.GetSkillStateNow(fightTargetPtr, pSkillName) == 0 then
                     -- 目标没有这个状态，检查是否可以使用
                     local now = os.clock() * skillAllTime
                     if Game.SkillIsCanUse(pSkill) and UseNextSkillCD(i, now, pSkillName) then   -- 判断是否可以使用技能 和 设置下一次技能使用的CD
                         return pSkill
                     end
                 end
+                -- 目标已经有这个状态，继续检查下一个技能（不return，继续for循环）
             else
                 -- 非医生模式，使用原来的逻辑
                 local now = os.clock() * skillAllTime
@@ -309,22 +308,24 @@ function HandleAttackMonster()
     end
 
     local pSkill = GetAttackSkillPtr()
-    if (pSkill == nil and Config.fightOnlySkill) then
-        HandleFreeSit() -- 处理空闲打坐
-        AutoFollow() --跟随
-        return 0
+    if (pSkill == nil) then
+        -- 没有可用技能，先检查医生模式是否目标已有所有状态
+        if (Form.GetCheckBoxValue("chkOnlyDoctor") == 1) and (IsAddStates(fightTargetPtr)) then 
+            ClearAttackTarget()
+            return 3
+        end
+        -- 其他情况处理
+        if Config.fightOnlySkill then
+            HandleFreeSit() -- 处理空闲打坐
+            AutoFollow() --跟随
+            return 0
+        end
     end
 
     local isSelf = Game.SkillIsTypeSelf(pSkill) -- 判断目标是否是自己
     if (isSelf == 1) then
         Game.Attack(pSkill, Game.GetCurChar()) -- 开始正常对自己攻击
         return 0
-    end
-    
-    --判断目标是否有所有的状态
-    if (Form.GetCheckBoxValue("chkOnlyDoctor") == 1) and (IsAddStates(fightTargetPtr)) then 
-        ClearAttackTarget()
-        return 3
     end
 	
     Game.Attack(pSkill, fightTargetPtr)

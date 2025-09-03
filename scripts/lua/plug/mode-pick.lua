@@ -1,4 +1,4 @@
-----修改调整.by:初雨Ryan -20250831
+----最终修改调整.by:初雨Ryan -20250831
 -- 最小和最大拾取延迟
 local MIN_PICK_TIME = 100
 local MAX_PICK_TIME = 5000

@@ -1,4 +1,4 @@
-----修改调整.by:初雨Ryan -20250824
+----最终修改调整.by:初雨Ryan -20250824
 local allTime = 1000
 local MIN_INTERVAL_TIME = 1  -- 最小间隔时间（秒）
 
