@@ -478,7 +478,7 @@ function OnPlugStarted()
 	
 	LoadPlugScript(true)
 
-	-- OnPlugSave()
+	OnPlugSave()
 	return 0
 end
 

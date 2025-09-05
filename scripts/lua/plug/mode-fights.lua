@@ -672,10 +672,11 @@ function FightMonsters(nDeep)
             end
             
             -- 检测是否偏离挂机区 偏离了去寻找目标
-            -- if IsOutAttackArea() then
-			    -- Game.SysInfo("移动到范围目标")
-                -- return NextState(nDeep, 2, true) -- 进入向目标移动
-            -- end
+            if Config.fightStayHere and IsOutAttackArea() then
+                --Game.SysInfo("攻击时偏离挂机范围，返回挂机点")
+                ClearAttackTarget()
+                return NextState(nDeep, 2, true) -- 进入向目标移动
+            end
 
             -- 如果攻击异常重新寻怪
             local attackState = HandleAttackMonster()
